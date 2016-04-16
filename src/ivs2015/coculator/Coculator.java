@@ -22,7 +22,7 @@ public class Coculator extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L; 
 	private JTextField display ;
 	private JPanel buttonPanel = new JPanel();
-	private JButton buttons[] = new JButton[17];
+	private JButton buttons[] = new JButton[20];
 	
 	private double prevResult;
 	private String prevOperation = null;
@@ -33,11 +33,11 @@ public class Coculator extends JFrame implements ActionListener{
 	
 	public Coculator(){
 		
-		this.setTitle("Coculator 9.1");
+		this.setTitle("Coculator 9.2");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new MigLayout("", "[456.00,grow]", "[49.00][193.00,grow]"));
 		this.setBounds(100, 100, 470,  300);
-		this.setMinimumSize(new Dimension(300,240));
+		this.setMinimumSize(new Dimension(300,250));
 		
 		this.display = new JTextField();
 		this.display.setEditable(false);
@@ -98,7 +98,7 @@ public class Coculator extends JFrame implements ActionListener{
 			}
 		}
 		
-		for(int i = 11; i <= 14; i++  ){
+		for(int i = 11; i <= 17; i++  ){
 			if(e.getSource() == this.buttons[i]){
 				if(this.prevOperation == null && this.result == ""){
 					this.prevOperation = buttons[i].getText();
@@ -153,7 +153,7 @@ public class Coculator extends JFrame implements ActionListener{
 			}
 		}
 		
-		if(e.getSource() == this.buttons[15]){
+		if(e.getSource() == this.buttons[18]){
 			if(this.prevOperation == null && this.result == ""){
 				this.result = "0";
 				this.DisplayResult = "0";
@@ -200,7 +200,7 @@ public class Coculator extends JFrame implements ActionListener{
 			}
 		}
 		
-		if(e.getSource() == this.buttons[16]){
+		if(e.getSource() == this.buttons[19]){
 			this.DisplayResult = "";
 			this.prevOperation = null;
 			this.prevResult = 0;
@@ -263,11 +263,21 @@ public class Coculator extends JFrame implements ActionListener{
 		this.buttons[14].addActionListener(this);
 		this.buttonPanel.add(buttons[14], "cell 3 1, grow");
 		
-		this.buttons[15] = new JButton("=");
+		this.buttons[15] = new JButton("!");
 		this.buttons[15].addActionListener(this);
-		this.buttonPanel.add(buttons[15], "cell 2 3, grow");
-		this.buttons[16] = new JButton("C");
+		this.buttonPanel.add(buttons[15], "cell 1 4, grow");
+		this.buttons[16] = new JButton("^");
 		this.buttons[16].addActionListener(this);
-		this.buttonPanel.add(buttons[16], "cell 1 3, grow");
+		this.buttonPanel.add(buttons[16], "cell 2 4, grow");
+		this.buttons[17] = new JButton("sqrt");
+		this.buttons[17].addActionListener(this);
+		this.buttonPanel.add(buttons[17], "cell 3 4, grow");
+		
+		this.buttons[18] = new JButton("=");
+		this.buttons[18].addActionListener(this);
+		this.buttonPanel.add(buttons[18], "cell 2 3, grow");
+		this.buttons[19] = new JButton("C");
+		this.buttons[19].addActionListener(this);
+		this.buttonPanel.add(buttons[19], "cell 1 3, grow");
 	}
 }
