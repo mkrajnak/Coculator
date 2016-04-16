@@ -1,5 +1,8 @@
 package ivs2015.coculator;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -11,6 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import net.miginfocom.swing.MigLayout;
 
 
 public class Coculator extends JFrame implements ActionListener{
@@ -31,35 +36,31 @@ public class Coculator extends JFrame implements ActionListener{
 	private int STATE = 0; 
 	
 	public Coculator(){
-		super("Couclator 9.0");
-		this.content = getContentPane();
 		
+		this.setTitle("Coculator 9.1");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.getContentPane().setLayout(new MigLayout("", "[456.00,grow]", "[49.00][193.00,grow]"));
+		this.setBounds(100, 100, 470,  300);
 		
 		this.display = new JTextField();
 		this.display.setEditable(false);
-		this.display.setSize(this.WIDTH, 100);
 		this.display.setText("0");
-		//this.display.setBackground(Color.cyan);
+		this.display.setFont(new java.awt.Font("Century Schoolbook L", 2, 24));
+		this.getContentPane().add(this.display, "cell 0 0,grow");
 		
-		buttonPanel.setLayout(new GridLayout(4,4));
-		for (int i=0;i< 16;i++){
-			buttons[i] = new JButton(buttonString[i]);
-			buttons[i].addActionListener(this);
-			buttonPanel.add(buttons[i]);
-		}
+		this.buttonPanel.setLayout(new MigLayout("", "[100.00,grow][100.00,grow][100.00,grow][100.00,grow]", "[40.00,grow][40.00,grow][40.00,grow][40.00,grow]"));
+		this.getContentPane().add(this.buttonPanel, "cell 0 1,grow");
 		
-		this.add(this.display, BorderLayout.NORTH);
-		this.add(this.buttonPanel);
+		initButtons();
 		
-		this.setVisible(true);
-		this.setSize(450, 500);
+		this.setVisible(true);	
 		this.setResizable(false);
-	
 	}
 	
 	public static void main (String[] args) {
 		new Coculator();
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -77,8 +78,10 @@ public class Coculator extends JFrame implements ActionListener{
 					this.STATE = 0;
 				}
 				
-				this.DisplayResult += i;
-				this.result += i;
+				if(this.result.length() <= 8){
+					this.DisplayResult += i;
+					this.result += i;
+				}
 				this.display.setText(this.DisplayResult);
 			}
 		}
@@ -92,7 +95,7 @@ public class Coculator extends JFrame implements ActionListener{
 					this.display.setText(this.DisplayResult);
 					this.STATE = 1;
 				}
-				if(this.prevOperation == null && this.result != ""){
+				else if(this.prevOperation == null && this.result != ""){
 					this.prevOperation = buttons[i].getText();
 					this.prevResult = Double.parseDouble(this.result);
 					this.DisplayResult += " "+buttons[i].getText() + " ";
@@ -113,7 +116,18 @@ public class Coculator extends JFrame implements ActionListener{
 					if(this.prevOperation != "="){
 						this.prevResult = result;
 					}
-					this.DisplayResult = this.prevResult + " " + buttons[i].getText() + " ";
+					
+					String tmp = ""+this.prevResult; 
+					String[] parts = tmp.split("\\.");
+					Pattern p = Pattern.compile("[^0]*");
+					Matcher m = p.matcher(parts[1]);
+					if(!m.matches()){
+						this.DisplayResult = parts[0] + " " + buttons[i].getText() + " ";
+					}
+					else{
+						this.DisplayResult = this.prevResult + " " + buttons[i].getText() + " ";
+					}
+					
 					this.display.setText(this.DisplayResult);
 					this.prevOperation = buttons[i].getText();
 					this.STATE = 1;
@@ -133,6 +147,9 @@ public class Coculator extends JFrame implements ActionListener{
 				this.DisplayResult = "0";
 				this.display.setText(this.DisplayResult);
 			}
+			else if(this.prevOperation == null && this.result != ""){
+				this.STATE = 3;
+			}
 			else if(this.prevOperation != null && this.STATE != 1 && this.STATE != 3){
 				double result = 0;
 				if(this.prevOperation == "+" )
@@ -147,6 +164,13 @@ public class Coculator extends JFrame implements ActionListener{
 				this.prevResult = result;
 				this.prevOperation = "=";
 				this.DisplayResult = ""+result;
+				
+				String[] parts = this.DisplayResult.split("\\.");
+				Pattern p = Pattern.compile("[^0]*");
+				Matcher m = p.matcher(parts[1]);
+				if(!m.matches()){
+					this.DisplayResult = parts[0];
+				}
 				this.display.setText(this.DisplayResult);
 				this.STATE = 3;
 			}
@@ -169,5 +193,61 @@ public class Coculator extends JFrame implements ActionListener{
 			this.STATE = 0;
 			this.display.setText("0");
 		}
+	}
+	
+	public void initButtons(){
+		this.buttons[0] = new JButton("0");
+		this.buttons[0].addActionListener(this);
+		this.buttonPanel.add(buttons[0], "cell 0 3, grow");
+		
+		this.buttons[1] = new JButton("1");
+		this.buttons[1].addActionListener(this);
+		this.buttonPanel.add(buttons[1], "cell 0 2, grow");
+		this.buttons[2] = new JButton("2");
+		this.buttons[2].addActionListener(this);
+		this.buttonPanel.add(buttons[2], "cell 1 2, grow");
+		this.buttons[3] = new JButton("3");
+		this.buttons[3].addActionListener(this);
+		this.buttonPanel.add(buttons[3], "cell 2 2, grow");
+		
+		this.buttons[4] = new JButton("4");
+		this.buttons[4].addActionListener(this);
+		this.buttonPanel.add(buttons[4], "cell 0 1, grow");
+		this.buttons[5] = new JButton("5");
+		this.buttons[5].addActionListener(this);
+		this.buttonPanel.add(buttons[5], "cell 1 1, grow");
+		this.buttons[6] = new JButton("6");
+		this.buttons[6].addActionListener(this);
+		this.buttonPanel.add(buttons[6], "cell 2 1, grow");
+		
+		this.buttons[7] = new JButton("7");
+		this.buttons[7].addActionListener(this);
+		this.buttonPanel.add(buttons[7], "cell 0 0, grow");
+		this.buttons[8] = new JButton("6");
+		this.buttons[8].addActionListener(this);
+		this.buttonPanel.add(buttons[8], "cell 1 0, grow");
+		this.buttons[9] = new JButton("9");
+		this.buttons[9].addActionListener(this);
+		this.buttonPanel.add(buttons[9], "cell 2 0, grow");
+		
+		this.buttons[10] = new JButton("+");
+		this.buttons[10].addActionListener(this);
+		this.buttonPanel.add(buttons[10], "cell 3 3, grow");
+		this.buttons[11] = new JButton("-");
+		this.buttons[11].addActionListener(this);
+		this.buttonPanel.add(buttons[11], "cell 3 2, grow");
+		this.buttons[12] = new JButton("/");
+		this.buttons[12].addActionListener(this);
+		this.buttonPanel.add(buttons[12], "cell 3 0, grow");
+		this.buttons[13] = new JButton("*");
+		this.buttons[13].addActionListener(this);
+		this.buttonPanel.add(buttons[13], "cell 3 1, grow");
+		
+		this.buttons[14] = new JButton("=");
+		this.buttons[14].addActionListener(this);
+		this.buttonPanel.add(buttons[14], "cell 2 3, grow");
+		this.buttons[15] = new JButton("C");
+		this.buttons[15].addActionListener(this);
+		this.buttonPanel.add(buttons[15], "cell 1 3, grow");
 	}
 }
