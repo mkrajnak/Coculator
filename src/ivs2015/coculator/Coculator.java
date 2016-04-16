@@ -22,13 +22,14 @@ public class Coculator extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L; 
 	private JTextField display ;
 	private JPanel buttonPanel = new JPanel();
-	private JButton buttons[] = new JButton[16];
+	private JButton buttons[] = new JButton[17];
 	
 	private double prevResult;
 	private String prevOperation = null;
 	private String DisplayResult = "";
 	private String result = "";
-	private int STATE = 0; 
+	private int STATE = 0;
+	private boolean dotSet = false;
 	
 	public Coculator(){
 		
@@ -61,11 +62,12 @@ public class Coculator extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		for(int i = 0; i <= 9; i ++){
+		for(int i = 0; i <= 10; i ++){
 			if(e.getSource()==this.buttons[i]){
 				if(this.STATE == 1){
 					this.result = "";
 					this.STATE = 0;
+					this.dotSet = false;
 				}
 				if(this.STATE == 3){
 					this.DisplayResult = "";
@@ -73,17 +75,30 @@ public class Coculator extends JFrame implements ActionListener{
 					this.prevResult = 0;
 					this.result = "";
 					this.STATE = 0;
+					this.dotSet = false;
 				}
 				
 				if(this.result.length() <= 8){
-					this.DisplayResult += i;
-					this.result += i;
+					if(i == 10 && !this.dotSet){
+						if(this.result != ""){
+							this.DisplayResult += '.';
+							this.result += '.';
+						}else{
+							this.DisplayResult += "0.";
+							this.result += "0.";
+						}
+						this.dotSet = true;
+					}
+					else if(i != 10){
+						this.DisplayResult += i;
+						this.result += i;
+					}
 				}
 				this.display.setText(this.DisplayResult);
 			}
 		}
 		
-		for(int i = 10; i <= 13; i++  ){
+		for(int i = 11; i <= 14; i++  ){
 			if(e.getSource() == this.buttons[i]){
 				if(this.prevOperation == null && this.result == ""){
 					this.prevOperation = buttons[i].getText();
@@ -116,9 +131,9 @@ public class Coculator extends JFrame implements ActionListener{
 					
 					String tmp = ""+this.prevResult; 
 					String[] parts = tmp.split("\\.");
-					Pattern p = Pattern.compile("[^0]*");
+					Pattern p = Pattern.compile("0*");
 					Matcher m = p.matcher(parts[1]);
-					if(!m.matches()){
+					if(m.matches()){
 						this.DisplayResult = parts[0] + " " + buttons[i].getText() + " ";
 					}
 					else{
@@ -138,7 +153,7 @@ public class Coculator extends JFrame implements ActionListener{
 			}
 		}
 		
-		if(e.getSource() == this.buttons[14]){
+		if(e.getSource() == this.buttons[15]){
 			if(this.prevOperation == null && this.result == ""){
 				this.result = "0";
 				this.DisplayResult = "0";
@@ -163,10 +178,13 @@ public class Coculator extends JFrame implements ActionListener{
 				this.DisplayResult = ""+result;
 				
 				String[] parts = this.DisplayResult.split("\\.");
-				Pattern p = Pattern.compile("[^0]*");
+				Pattern p = Pattern.compile("0*");
 				Matcher m = p.matcher(parts[1]);
-				if(!m.matches()){
+				if(m.matches()){
 					this.DisplayResult = parts[0];
+				}
+				if(this.DisplayResult.length() > 16){
+					this.DisplayResult = this.DisplayResult.substring(0, 16);
 				}
 				this.display.setText(this.DisplayResult);
 				this.STATE = 3;
@@ -182,13 +200,14 @@ public class Coculator extends JFrame implements ActionListener{
 			}
 		}
 		
-		if(e.getSource() == this.buttons[15]){
+		if(e.getSource() == this.buttons[16]){
 			this.DisplayResult = "";
 			this.prevOperation = null;
 			this.prevResult = 0;
 			this.result = "";
 			this.STATE = 0;
 			this.display.setText("0");
+			this.dotSet = false;
 		}
 	}
 	
@@ -227,24 +246,28 @@ public class Coculator extends JFrame implements ActionListener{
 		this.buttons[9].addActionListener(this);
 		this.buttonPanel.add(buttons[9], "cell 2 0, grow");
 		
-		this.buttons[10] = new JButton("+");
+		this.buttons[10] = new JButton(".");
 		this.buttons[10].addActionListener(this);
-		this.buttonPanel.add(buttons[10], "cell 3 3, grow");
-		this.buttons[11] = new JButton("-");
-		this.buttons[11].addActionListener(this);
-		this.buttonPanel.add(buttons[11], "cell 3 2, grow");
-		this.buttons[12] = new JButton("/");
-		this.buttons[12].addActionListener(this);
-		this.buttonPanel.add(buttons[12], "cell 3 0, grow");
-		this.buttons[13] = new JButton("*");
-		this.buttons[13].addActionListener(this);
-		this.buttonPanel.add(buttons[13], "cell 3 1, grow");
+		this.buttonPanel.add(buttons[10], "cell 0 4, grow");
 		
-		this.buttons[14] = new JButton("=");
+		this.buttons[11] = new JButton("+");
+		this.buttons[11].addActionListener(this);
+		this.buttonPanel.add(buttons[11], "cell 3 3, grow");
+		this.buttons[12] = new JButton("-");
+		this.buttons[12].addActionListener(this);
+		this.buttonPanel.add(buttons[12], "cell 3 2, grow");
+		this.buttons[13] = new JButton("/");
+		this.buttons[13].addActionListener(this);
+		this.buttonPanel.add(buttons[13], "cell 3 0, grow");
+		this.buttons[14] = new JButton("*");
 		this.buttons[14].addActionListener(this);
-		this.buttonPanel.add(buttons[14], "cell 2 3, grow");
-		this.buttons[15] = new JButton("C");
+		this.buttonPanel.add(buttons[14], "cell 3 1, grow");
+		
+		this.buttons[15] = new JButton("=");
 		this.buttons[15].addActionListener(this);
-		this.buttonPanel.add(buttons[15], "cell 1 3, grow");
+		this.buttonPanel.add(buttons[15], "cell 2 3, grow");
+		this.buttons[16] = new JButton("C");
+		this.buttons[16].addActionListener(this);
+		this.buttonPanel.add(buttons[16], "cell 1 3, grow");
 	}
 }
