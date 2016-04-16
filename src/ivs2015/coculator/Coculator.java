@@ -27,6 +27,7 @@ public class Coculator extends JFrame implements ActionListener{
 	private double prevResult;
 	private String prevOperation = null;
 	private String DisplayResult = "";
+	private String result = "";
 	private int STATE = 0; 
 	
 	public Coculator(){
@@ -64,55 +65,109 @@ public class Coculator extends JFrame implements ActionListener{
 		
 		for(int i = 0; i <= 9; i ++){
 			if(e.getSource()==this.buttons[i]){
-				if(this.STATE != 0){
+				if(this.STATE == 1){
+					this.result = "";
+					this.STATE = 0;
+				}
+				if(this.STATE == 3){
 					this.DisplayResult = "";
+					this.prevOperation = null;
+					this.prevResult = 0;
+					this.result = "";
 					this.STATE = 0;
 				}
 				
 				this.DisplayResult += i;
+				this.result += i;
 				this.display.setText(this.DisplayResult);
 			}
 		}
 		
 		for(int i = 10; i <= 13; i++  ){
 			if(e.getSource() == this.buttons[i]){
-				if(this.prevOperation == null && this.DisplayResult == ""){
+				if(this.prevOperation == null && this.result == ""){
 					this.prevOperation = buttons[i].getText();
 					this.prevResult =  0;
-					this.DisplayResult += "0 "+buttons[i].getText();
+					this.DisplayResult += "0 "+buttons[i].getText() + " ";
 					this.display.setText(this.DisplayResult);
 					this.STATE = 1;
 				}
-				if(this.prevOperation == null && this.DisplayResult != ""){
+				if(this.prevOperation == null && this.result != ""){
 					this.prevOperation = buttons[i].getText();
-					this.prevResult = Double.parseDouble(this.DisplayResult);
-					this.DisplayResult += " "+buttons[i].getText();
+					this.prevResult = Double.parseDouble(this.result);
+					this.DisplayResult += " "+buttons[i].getText() + " ";
 					this.display.setText(this.DisplayResult);
 					this.STATE = 1;
 				}
 				else if(this.prevOperation != null && this.STATE != 1){
 					double result = 0;
 					if(this.prevOperation == "+" )
-						result = this.prevResult + Double.parseDouble(this.DisplayResult);
+						result = this.prevResult + Double.parseDouble(this.result);
 					if(this.prevOperation == "-")
-						result = this.prevResult - Double.parseDouble(this.DisplayResult);
+						result = this.prevResult - Double.parseDouble(this.result);
 					if(this.prevOperation == "*")
-						result = this.prevResult * Double.parseDouble(this.DisplayResult);
+						result = this.prevResult * Double.parseDouble(this.result);
 					if(this.prevOperation == "/")
-						result = this.prevResult / Double.parseDouble(this.DisplayResult);
+						result = this.prevResult / Double.parseDouble(this.result);
 					
+					if(this.prevOperation != "="){
+						this.prevResult = result;
+					}
+					this.DisplayResult = this.prevResult + " " + buttons[i].getText() + " ";
+					this.display.setText(this.DisplayResult);
 					this.prevOperation = buttons[i].getText();
-					this.prevResult = result;
-					this.display.setText(result + " " + buttons[i].getText());
 					this.STATE = 1;
 				}
 				else if(this.prevOperation != null && this.STATE == 1){
-					String newText = this.display.getText().substring(0, this.display.getText().length()-1) + buttons[i].getText();
+					this.DisplayResult = this.display.getText().substring(0, this.display.getText().length()-2) + buttons[i].getText()+" ";
 					this.prevOperation = buttons[i].getText();
-					this.display.setText(newText);
+					this.display.setText(this.DisplayResult);
 					this.STATE = 1;
 				}
 			}
+		}
+		
+		if(e.getSource() == this.buttons[14]){
+			if(this.prevOperation == null && this.result == ""){
+				this.result = "0";
+				this.DisplayResult = "0";
+				this.display.setText(this.DisplayResult);
+			}
+			else if(this.prevOperation != null && this.STATE != 1 && this.STATE != 3){
+				double result = 0;
+				if(this.prevOperation == "+" )
+					result = this.prevResult + Double.parseDouble(this.result);
+				if(this.prevOperation == "-")
+					result = this.prevResult - Double.parseDouble(this.result);
+				if(this.prevOperation == "*")
+					result = this.prevResult * Double.parseDouble(this.result);
+				if(this.prevOperation == "/")
+					result = this.prevResult / Double.parseDouble(this.result);
+				
+				this.prevResult = result;
+				this.prevOperation = "=";
+				this.DisplayResult = ""+result;
+				this.display.setText(this.DisplayResult);
+				this.STATE = 3;
+			}
+			else if(this.prevOperation != null && this.STATE == 1){
+				this.prevOperation = "=";
+				this.DisplayResult = ""+this.prevResult;
+				this.display.setText(this.DisplayResult);
+				this.STATE = 3;
+			}
+			else if(this.STATE == 3){
+				this.STATE = 3;
+			}
+		}
+		
+		if(e.getSource() == this.buttons[15]){
+			this.DisplayResult = "";
+			this.prevOperation = null;
+			this.prevResult = 0;
+			this.result = "";
+			this.STATE = 0;
+			this.display.setText("0");
 		}
 	}
 }
