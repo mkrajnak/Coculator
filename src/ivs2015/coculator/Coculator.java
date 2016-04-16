@@ -2,11 +2,8 @@ package ivs2015.coculator;
 
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.GridLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,12 +19,10 @@ public class Coculator extends JFrame implements ActionListener{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private Container content ; 
+	private static final long serialVersionUID = 1L; 
 	private JTextField display ;
 	private JPanel buttonPanel = new JPanel();
 	private JButton buttons[] = new JButton[16];
-	private String buttonString[] = {"0","1","2","3","4","5","6","7","8","9","+","-","/","*","=","C"};
 	
 	private double prevResult;
 	private String prevOperation = null;
@@ -41,10 +36,12 @@ public class Coculator extends JFrame implements ActionListener{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new MigLayout("", "[456.00,grow]", "[49.00][193.00,grow]"));
 		this.setBounds(100, 100, 470,  300);
+		this.setMinimumSize(new Dimension(300,240));
 		
 		this.display = new JTextField();
 		this.display.setEditable(false);
 		this.display.setText("0");
+		this.display.setBackground(Color.WHITE);
 		this.display.setFont(new java.awt.Font("Century Schoolbook L", 2, 24));
 		this.getContentPane().add(this.display, "cell 0 0,grow");
 		
@@ -54,7 +51,7 @@ public class Coculator extends JFrame implements ActionListener{
 		initButtons();
 		
 		this.setVisible(true);	
-		this.setResizable(false);
+		//this.setResizable(false);
 	}
 	
 	public static void main (String[] args) {
@@ -223,7 +220,7 @@ public class Coculator extends JFrame implements ActionListener{
 		this.buttons[7] = new JButton("7");
 		this.buttons[7].addActionListener(this);
 		this.buttonPanel.add(buttons[7], "cell 0 0, grow");
-		this.buttons[8] = new JButton("6");
+		this.buttons[8] = new JButton("8");
 		this.buttons[8].addActionListener(this);
 		this.buttonPanel.add(buttons[8], "cell 1 0, grow");
 		this.buttons[9] = new JButton("9");
