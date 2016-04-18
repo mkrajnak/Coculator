@@ -16,7 +16,6 @@ public class Calculator_tests {
 		public Robot bot;
 		public String value;
 		double val;
-		
 		/* x/y | 80 , 180 , 280,  380
 		 * ____|________________________
 		 * 110 |  7	   8 	 9	   /	 
@@ -25,6 +24,7 @@ public class Calculator_tests {
 		 * 230 |  0	   C	 =	   +
 		 * 270 |  .	   !	 e^	  sqrt
 		 */
+
 
 	@Test
 	public void test_plus_gui() throws AWTException, InterruptedException {
@@ -174,7 +174,7 @@ public class Calculator_tests {
 	@Test
 	public void test_multiplication_gui() throws AWTException, InterruptedException {
 		
-		//System.out.println("Test 2*7=[14]");
+		//System.out.println("Test 2*7=[14]"); 
 		TimeUnit.SECONDS.sleep(1);
 		bot = new Robot();
 		bot.mouseMove(180,190);
@@ -231,7 +231,56 @@ public class Calculator_tests {
 		
 	}
 	
-
+	@Test
+	public void test_clear_gui() throws AWTException, InterruptedException {
+		
+		TimeUnit.SECONDS.sleep(1);
+		bot = new Robot();
+		bot.mouseMove(180,190);
+		bot.mousePress(InputEvent.BUTTON1_MASK);
+		bot.mouseRelease(InputEvent.BUTTON1_MASK);
+		TimeUnit.MILLISECONDS.sleep(100);
+		bot.mouseMove(180,230);
+		bot.mousePress(InputEvent.BUTTON1_MASK);
+		bot.mouseRelease(InputEvent.BUTTON1_MASK);
+		TimeUnit.MILLISECONDS.sleep(100);
+		
+		
+		value = calc.getDisplayResult();
+		assertEquals("Test clear", "", value);
+	}
 	
+	@Test
+	public void test_two_operations() throws AWTException, InterruptedException {
+
+		TimeUnit.SECONDS.sleep(1);
+		bot = new Robot();
+		bot.mouseMove(180,190);
+		bot.mousePress(InputEvent.BUTTON1_MASK);
+		bot.mouseRelease(InputEvent.BUTTON1_MASK);
+		TimeUnit.MILLISECONDS.sleep(100);
+		bot.mouseMove(380,150);
+		bot.mousePress(InputEvent.BUTTON1_MASK);
+		bot.mouseRelease(InputEvent.BUTTON1_MASK);
+		TimeUnit.MILLISECONDS.sleep(100);
+		bot.mouseMove(380,230);
+		bot.mousePress(InputEvent.BUTTON1_MASK);
+		bot.mouseRelease(InputEvent.BUTTON1_MASK);
+		TimeUnit.MILLISECONDS.sleep(100);
+		bot.mouseMove(80,110);
+		bot.mousePress(InputEvent.BUTTON1_MASK);
+		bot.mouseRelease(InputEvent.BUTTON1_MASK);
+		TimeUnit.MILLISECONDS.sleep(100);
+		bot.mouseMove(280,230);
+		bot.mousePress(InputEvent.BUTTON1_MASK);
+		bot.mouseRelease(InputEvent.BUTTON1_MASK);
+		TimeUnit.MILLISECONDS.sleep(100);
+		
+		value = calc.getDisplayResult();
+		val = Double.parseDouble(value);
+		assertEquals("Test 2*+7=9", 9, val, 0.001);
+	
+	}
 
 }
+
