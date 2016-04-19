@@ -1,6 +1,4 @@
 /**
- * 
- * @author Patrik Segedy
  * @file MathLib.java
  * 
  */
@@ -110,7 +108,7 @@ public class MathLib {
      */
     public double div (double num1, double num2) {
         if (num2 == 0) {
-        	throw new ArithmeticException();
+        	return Double.NaN;
         }
         else {
             return num1/num2;
@@ -125,23 +123,7 @@ public class MathLib {
      */
     public float div (float num1, float num2) {
         if (num2 == 0) {
-            throw new ArithmeticException();
-        }
-        else {
-            return num1/num2;
-        }
-    }
-    
-    /**
-     * Delenie dvoch cisel (int)
-     * @param num1
-     * @param num2
-     * @return (int) podiel num1/num2
-     * @TODO Asi drist co ? :D
-     */
-    public int div (int num1, int num2) {
-        if (num2 == 0) {
-            throw new ArithmeticException();
+        	return Float.NaN;
         }
         else {
             return num1/num2;
@@ -175,7 +157,23 @@ public class MathLib {
      * @TODO urobit efektivnejsie
      */
     public int fact (int num) {
-    	return ((num == 0)? 1 : num*fact(--num));
+    	// paradny algoritmus z http://www.luschny.de/math/factorial/csharp/ScriptFactorial.html
+    	double ex;
+    	double x = (double)num;
+    	x = x + x + 1;
+    	
+    	if (x > 1) {
+    		x = (Math.log(2.0 * Math.PI) + Math.log(x/2.0) * x - x - (1.0 - 7.0 / (30.0 * x * x)) / (6.0 * x)) / 2.0;
+    		x = x / Math.log(10);
+    		ex = Math.floor(x);
+    		x = Math.pow(10, x - ex);
+    	}
+    	
+    	return (int)x;
+    	
+    	/* rekurzivne riesenie
+    	 * return ((num == 0)? 1 : num*fact(--num));
+    	 */
     }
     
     /**
