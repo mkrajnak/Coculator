@@ -1,0 +1,1 @@
+INDEX VERSION 1.127+D:\pato\VUT\4sem\ivs\coculator\Coculator\.metadata\.plugins\org.eclipse.jdt.core
