@@ -38,6 +38,10 @@ public class Calc implements ActionListener {
 	/**
 	 * Launch the application.
 	 */
+	/*
+	 * added comment
+	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
