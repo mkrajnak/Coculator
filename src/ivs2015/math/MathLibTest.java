@@ -1,16 +1,43 @@
+ /********************************************************************
+ * Project: Simple calculator - C0CULATOR® 
+ * Package: ivs2015.math
+ * File: MathLibTest.java
+ * Date: 22.4.2016
+ * Authors: David Prexta (xprext00)
+ * 			Maros Cocula (xcocul00)
+ * 			Patrik Segedy (xseged00)
+ * 			Martin Krajnak (xkrajn02)
+ * Description: Class for testing mathematical library  				 
+ *				Class is using JUnit Framework
+ *******************************************************************/
+/**
+ * @file MathLibTest.java
+ * @package ivs2015.math
+ * @brief Class provides test for mathematical library 
+ * @author David Prexta (xprext00)
+ * @author Maros Cocula (xcocul00)
+ * @author Patrik Segedy (xseged00)
+ * @author Martin Krajnak(xkrajn02)
+ * @version 9.9
+ */
 package ivs2015.math;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Testy pre matematicku kniznicu
- * @author Patrik Segedy xseged00
+ * Main class which provides test methods
+ * @class MathLibTest.java
+ * @brief provides test methods for mathematical functions
+ * @see MathLib
  */
 public class MathLibTest {
 	
 	MathLib math = new MathLib();
 	
+	/**
+	 * @brief Testing sum
+	 */
 	@Test
 	public void testAdd() {
 		int iNumber = 8;
@@ -24,7 +51,9 @@ public class MathLibTest {
 		assertEquals("Test int + float", 18.0, math.add(iNumber, fNumber), 0.000001);
 		assertEquals("Test double + float", 19.1, math.add(dNumber, fNumber), 0.000001);
 	}
-	
+	/**
+	 * @brief Testing subtraction
+	 */
 	@Test
 	public void testSub() {
 		int iNumber1 = 8, iNumber2 = 10;
@@ -44,7 +73,9 @@ public class MathLibTest {
 		assertEquals("Test int - float", -2.0, math.sub(iNumber1, fNumber1), 0.000001);
 		assertEquals("Test double - float", 2.2, math.sub(dNumber2, fNumber1), 0.000001);
 	}
-	
+	/**
+	 * @brief Testing multiplication
+	 */
 	@Test
 	public void testMul() {
 		int iNumber = 8;
@@ -60,7 +91,9 @@ public class MathLibTest {
 		assertEquals("Test double * float", -101.97, math.mul(dNumber, fNumber), 0.000001);
 		assertEquals("Test float * int zero", 0, math.mul(fNumber, iZero), 0.000001);
 	}
-	
+	/**
+	 * @brief Testing division
+	 */
 	@Test
 	public void testDiv() {
 		int iNumber = 8;
@@ -79,7 +112,9 @@ public class MathLibTest {
         assertEquals("Test int zero / float", 0.0, math.div(iZero, fNumber), 0.000001);
         assertEquals("Test +inf / double", Double.POSITIVE_INFINITY, math.div(Double.POSITIVE_INFINITY, dNumber), 0.000001);
 	}
-	
+	/**
+	 * @brief Testing square root
+	 */
 	@Test
 	public void testSqrt() {
 		assertEquals("Test sqrt(0)", 0, math.sqrt(0), 0.0001);
@@ -89,7 +124,9 @@ public class MathLibTest {
 		assertEquals("Test Double.POSITIVE_INFINITY", Double.POSITIVE_INFINITY, math.sqrt(Double.POSITIVE_INFINITY), 0.0001);
 		assertEquals("Test Double.NEGATIVE_INFINITY", Double.NaN, math.sqrt(Double.NEGATIVE_INFINITY), 0.0001);
 	}
-	
+	/**
+	 * @brief Testing factorial
+	 */
 	@Test
 	public void testFact() {
 		assertEquals("Test na zaporne cislo", -5, math.fact(-3));
@@ -100,7 +137,9 @@ public class MathLibTest {
 		assertEquals("Test 4!", 24, math.fact(4));
 		assertEquals("Test 5!", 120, math.fact(5));
 	}
-	
+	/**
+	 * @brief Testing power
+	 */
 	@Test
 	public void testPow() {
 		assertEquals("Test 0^5", 0, math.pow(0,5), 0.0001);
@@ -113,3 +152,4 @@ public class MathLibTest {
 	}
 
 }
+/*** End of file MathLibTest.java ***/
