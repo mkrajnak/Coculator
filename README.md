@@ -1,2 +1,2 @@
 # Coculator
-Simple calculator for IVS project 
+Simple calculator tests for IVS project 
