@@ -1,3 +1,25 @@
+/********************************************************************
+ * Project: Simple calculator - C0CULATOR® 
+ * Package: ivs2015
+ * File: Coculator.java
+ * Date: 22.4.2016
+ * Authors: David Prexta (xprext00)
+ * 			Maros Cocula (xcocul00)
+ * 			Patrik Segedy (xseged00)
+ * 			Martin krajnak (xkrajn02)
+ * Description: Calculator with basic mathematical functions 				 
+ *******************************************************************/
+
+/**
+ * @file Coculator.java
+ * @brief provides interface for interaction with application
+ * @package ivs2015.coculator
+ * @author David Prexta (xprext00)
+ * @author Maros Cocula (xcocul00)
+ * @author Patrik Segedy (xseged00)
+ * @author Martin krajnak(xkrajn02)
+ * @version 9.9
+ */
 package ivs2015.coculator;
 
 import java.util.regex.Pattern;
@@ -6,20 +28,21 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import ivs2015.math.MathLib;
 import net.miginfocom.swing.MigLayout;
 
+import ivs2015.math.MathLib;
 
+/**
+ * Main class also provides main function
+ * @class Coculator.java
+ * @brief Main class handling interface
+ */
 public class Coculator extends JFrame implements ActionListener{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L; 
 	private JTextField display ;
 	private JPanel buttonPanel = new JPanel();
@@ -35,6 +58,12 @@ public class Coculator extends JFrame implements ActionListener{
 	
 	private MathLib math;
 	
+	/**
+	 * Constructor method
+	 * @brief Function draws window of application
+	 * @param x	This is x coordinate of window
+	 * @param y	This is y coordinate of window 
+	 */
 	public Coculator(int x, int y){
 		this.math = new MathLib();
 		
@@ -60,10 +89,18 @@ public class Coculator extends JFrame implements ActionListener{
 		//this.setResizable(false);
 	}
 	
+	/**
+	 * Main function which calls constructor 
+	 * @brief main function
+	 * @param args is unused
+	 */
 	public static void main (String[] args) {
 		new Coculator(100, 100);
 	}
 	
+	/**
+	 * @brief Clear method sets display to default state
+	 */
 	public void clear(){
 		this.DisplayResult = "";
 		this.prevOperation = null;
@@ -74,6 +111,10 @@ public class Coculator extends JFrame implements ActionListener{
 		this.dotSet = false;
 	}
 	
+	/**
+	 * @brief Function defines actions which are done when one of the buttons is pressed
+	 * @param e This represents action which invoked method
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == this.buttons[19]){
@@ -416,6 +457,9 @@ public class Coculator extends JFrame implements ActionListener{
 	}
 	}
 	
+	/**
+	 * @brief Draws all the buttons
+	 */
 	public void initButtons(){
 		this.buttons[0] = new JButton("0");
 		this.buttons[0].addActionListener(this);
@@ -485,8 +529,13 @@ public class Coculator extends JFrame implements ActionListener{
 		this.buttons[19].addActionListener(this);
 		this.buttonPanel.add(buttons[19], "cell 1 3, grow");
 	}
-
+	
+	/**
+	 * @brief Function provides content of display for testing purposes
+	 * @return value in display
+	 */
 	public String getDisplayResult() {
 		return DisplayResult;
 	}
 }
+/*** End of file Coculator.java ***/

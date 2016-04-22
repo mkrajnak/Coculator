@@ -1,3 +1,24 @@
+ /*****************************************************************
+ * Project: Simple calculator - C0CULATOR® 
+ * Package: ivs2015.tests
+ * File: Calculator_tests.java
+ * Date: 22.4.2016
+ * Authors: David Prexta (xprext00)
+ * 			Maros Cocula (xcocul00)
+ * 			Patrik Segedy (xseged00)
+ * 			Martin krajnak (xkrajn02)
+ * Description: Class is providing basic tests of user interface and basic mathematical functions  				 	
+ ******************************************************************/
+/**
+ * @file Calculator_tests.java
+ * @package ivs2015.math
+ * @brief 
+ * @author David Prexta (xprext00)
+ * @author Maros Cocula (xcocul00)
+ * @author Patrik Segedy (xseged00)
+ * @author Martin krajnak(xkrajn02)
+ * @version 9.9
+ */
 package ivs2015.tests;
 
 import java.awt.AWTException;
@@ -9,6 +30,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import ivs2015.coculator.*; 
+
+/**
+ * Class contains test of user interface and basic functions
+ * @class Calculator_tests.java
+ * @brief provides test methods for UI
+ * @see ivs2015.coculator.Coculator
+ */
 
 public class Calculator_tests {
 	
@@ -25,7 +53,10 @@ public class Calculator_tests {
 		 * 270 |  .	   !	 e^	  sqrt
 		 */
 
-
+	/**
+	 * @throws AWTException
+	 * @throws InterruptedException
+	 */
 	@Test
 	public void test_plus_gui() throws AWTException, InterruptedException {
 
@@ -99,6 +130,11 @@ public class Calculator_tests {
 		assertEquals("Test 1+7+5+2.5=15,5", 15.5, val, 0.001);
 		
 	}
+	/**
+	 * @brief Test of subtraction
+	 * @throws AWTException
+	 * @throws InterruptedException
+	 */
 	@Test
 	public void test_minus_gui() throws AWTException, InterruptedException {
 		
@@ -171,6 +207,11 @@ public class Calculator_tests {
 		assertEquals("Test 1-7+9-2.5=0.5", 0.5, val, 0.001);
 		
 	}
+	/**
+	 * @brief Testing multiplication
+	 * @throws AWTException
+	 * @throws InterruptedException
+	 */
 	@Test
 	public void test_multiplication_gui() throws AWTException, InterruptedException {
 		
@@ -230,7 +271,11 @@ public class Calculator_tests {
 		assertEquals("Test 2*7**2,2=30,8", 30.8, val, 0.001);
 		
 	}
-	
+	/**
+	 * @brief Function is testing clear function
+	 * @throws AWTException
+	 * @throws InterruptedException
+	 */
 	@Test
 	public void test_clear_gui() throws AWTException, InterruptedException {
 		
@@ -249,7 +294,11 @@ public class Calculator_tests {
 		value = calc.getDisplayResult();
 		assertEquals("Test clear", "", value);
 	}
-	
+	/**
+	 * @brief Function is testing two operations in a row  
+	 * @throws AWTException
+	 * @throws InterruptedException
+	 */
 	@Test
 	public void test_two_operations() throws AWTException, InterruptedException {
 
@@ -284,3 +333,4 @@ public class Calculator_tests {
 
 }
 
+/*** End of file Calculator_tests.java ***/
