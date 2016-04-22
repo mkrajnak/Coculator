@@ -153,6 +153,11 @@ public class Coculator extends JFrame implements ActionListener{
 				if(i == 15){
 					if(this.STATE == 3){
 						int tmp = (int) this.prevResult;
+						if(tmp > 20){
+							clear();
+							this.display.setText("Infinity");
+							break;
+						}
 						this.prevResult =  (double) math.fact(tmp);
 						this.DisplayResult = ""+this.prevResult;
 						this.display.setText(this.DisplayResult);
@@ -168,6 +173,11 @@ public class Coculator extends JFrame implements ActionListener{
 							break;
 						}
 						int tmp = Integer.parseInt(this.result);
+						if(tmp > 20){
+							clear();
+							this.display.setText("Infinity");
+							break;
+						}
 						this.result = String.valueOf(math.fact(tmp));
 						this.DisplayResult = this.result;
 						this.display.setText(this.DisplayResult);
@@ -182,6 +192,11 @@ public class Coculator extends JFrame implements ActionListener{
 							break;
 						}
 						int tmp = Integer.parseInt(this.result);
+						if(tmp > 20){
+							clear();
+							this.display.setText("Infinity");
+							break;
+						}
 						
 						if(this.STATE != 1){
 							this.DisplayResult = this.DisplayResult.substring(0, this.DisplayResult.length() - this.result.length());
@@ -375,6 +390,7 @@ public class Coculator extends JFrame implements ActionListener{
 				if(m.matches()){
 					this.DisplayResult = parts[0];
 				}
+				
 				if(this.DisplayResult.contains("E") && this.DisplayResult.length() > 16){
 					String ePart = this.DisplayResult.substring(this.DisplayResult.indexOf("E"),this.DisplayResult.length());
 					this.DisplayResult = this.DisplayResult.substring(0, 16-ePart.length());
