@@ -12,7 +12,7 @@ import ivs2015.coculator.*;
 
 public class Calculator_tests {
 	
-		public Coculator calc = new Coculator();
+		public Coculator calc = new Coculator(0, 0);
 		public Robot bot;
 		public String value;
 		double val;

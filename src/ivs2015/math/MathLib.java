@@ -155,7 +155,7 @@ public class MathLib {
      * @param num
      * @return faktorial cisla num
      */
-    public int fact (int num) {
+    public long fact (int num) {
     	// paradny algoritmus z http://www.luschny.de/math/factorial/csharp/ScriptFactorial.html
     	double ex = 0.0;
     	double x = (double)num;
@@ -168,8 +168,8 @@ public class MathLib {
     		x = Math.pow(10, x - ex);
     	}
     	if (ex > 0)
-    		return (int)(x*Math.pow(10,ex));
-    	return (int)x;
+    		return (long)(x*Math.pow(10,ex));
+    	return (long)x;
     	
     	/*
     	 * rekurzivne

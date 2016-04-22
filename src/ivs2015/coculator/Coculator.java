@@ -35,13 +35,13 @@ public class Coculator extends JFrame implements ActionListener{
 	
 	private MathLib math;
 	
-	public Coculator(){
+	public Coculator(int x, int y){
 		this.math = new MathLib();
 		
 		this.setTitle("Coculator 9.2");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new MigLayout("", "[456.00,grow]", "[49.00][193.00,grow]"));
-		this.setBounds(100, 100, 470,  300);
+		this.setBounds(x, y, 470,  300);
 		this.setMinimumSize(new Dimension(300,250));
 		
 		this.display = new JTextField();
@@ -61,7 +61,7 @@ public class Coculator extends JFrame implements ActionListener{
 	}
 	
 	public static void main (String[] args) {
-		new Coculator();
+		new Coculator(100, 100);
 	}
 	
 	public void clear(){
@@ -468,5 +468,9 @@ public class Coculator extends JFrame implements ActionListener{
 		this.buttons[19] = new JButton("C");
 		this.buttons[19].addActionListener(this);
 		this.buttonPanel.add(buttons[19], "cell 1 3, grow");
+	}
+
+	public String getDisplayResult() {
+		return DisplayResult;
 	}
 }
