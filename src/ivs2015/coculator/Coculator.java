@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ivs2015.math.MathLib;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -30,8 +31,12 @@ public class Coculator extends JFrame implements ActionListener{
 	private String result = "";
 	private int STATE = 0;
 	private boolean dotSet = false;
+	private String stored = "";
+	
+	private MathLib math;
 	
 	public Coculator(){
+		this.math = new MathLib();
 		
 		this.setTitle("Coculator 9.2");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,9 +64,48 @@ public class Coculator extends JFrame implements ActionListener{
 		new Coculator();
 	}
 	
+	public void clear(){
+		this.DisplayResult = "";
+		this.prevOperation = null;
+		this.prevResult = 0;
+		this.result = "";
+		this.STATE = 0;
+		this.display.setText("0");
+		this.dotSet = false;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == this.buttons[19]){
+			clear();
+		}
 		
+		if(this.STATE == 7){
+			for(int i = 0; i <= 10; i++){
+				if(e.getSource()==this.buttons[i]){
+					result += i;
+					this.DisplayResult += i;
+					this.display.setText(this.DisplayResult);
+				}
+			}
+			for(int i = 11; i <= 19; i++){
+				if(e.getSource()==this.buttons[i])
+				{
+					double tmp = math.pow(Double.parseDouble(this.stored), Double.parseDouble(this.result));
+					if(Double.isInfinite(tmp)){
+						clear();
+						this.display.setText("Infinity");
+						return;
+					}
+					this.DisplayResult = this.DisplayResult.substring(0, this.DisplayResult.length() - (this.stored.length() + this.result.length() - 1));
+					this.DisplayResult += "" + tmp;
+					this.result = "" + tmp;
+					this.STATE = 0;
+				}
+			}
+		}
+		
+		if(this.STATE != 7){
 		for(int i = 0; i <= 10; i ++){
 			if(e.getSource()==this.buttons[i]){
 				if(this.STATE == 1){
@@ -76,6 +120,10 @@ public class Coculator extends JFrame implements ActionListener{
 					this.result = "";
 					this.STATE = 0;
 					this.dotSet = false;
+				}
+				if(this.STATE == 16 || this.STATE == 17){
+					this.clear();
+					this.STATE = 0;
 				}
 				
 				if(this.result.length() <= 8){
@@ -100,6 +148,100 @@ public class Coculator extends JFrame implements ActionListener{
 		
 		for(int i = 11; i <= 17; i++  ){
 			if(e.getSource() == this.buttons[i]){
+				/// TODO - spojit fact a sqrt do jedneho ifu
+				/// doplnit maetemticku kniznicu
+				if(i == 15){
+					if(this.STATE == 3){
+						int tmp = (int) this.prevResult;
+						this.prevResult =  (double) math.fact(tmp);
+						this.DisplayResult = ""+this.prevResult;
+						this.display.setText(this.DisplayResult);
+						break;
+					}
+					if(this.prevOperation == null && this.result == ""){
+						break;
+					}
+					if(this.prevOperation == null && this.result != ""){
+						if(this.result.contains(".") || this.result.contains("-")){
+							clear();
+							this.display.setText("Math Error");
+							break;
+						}
+						int tmp = Integer.parseInt(this.result);
+						this.result = String.valueOf(math.fact(tmp));
+						this.DisplayResult = this.result;
+						this.display.setText(this.DisplayResult);
+						this.prevResult = Double.parseDouble(this.result);
+						this.STATE = 16;
+						break;
+					}
+					else if(this.prevOperation != null){
+						if(this.result.contains(".") || this.result.contains("-")){
+							clear();
+							this.display.setText("Math Error");
+							break;
+						}
+						int tmp = Integer.parseInt(this.result);
+						
+						if(this.STATE != 1){
+							this.DisplayResult = this.DisplayResult.substring(0, this.DisplayResult.length() - this.result.length());
+							this.result = String.valueOf(math.fact(tmp));
+							this.DisplayResult += result;
+							this.display.setText(this.DisplayResult);
+							break;
+						}else{
+							this.result = String.valueOf(math.fact(tmp));
+							this.DisplayResult = this.result;
+							this.display.setText(this.DisplayResult);
+							this.prevOperation = null;
+							this.STATE = 16;
+							break;
+						}
+					}
+				}
+				
+				if(i == 17){
+					if(this.STATE == 3){
+						this.prevResult =  math.sqrt(this.prevResult);
+						this.DisplayResult = ""+this.prevResult;
+						this.display.setText(this.DisplayResult);
+						break;
+					}
+					if(this.prevOperation == null && this.result == ""){
+						break;
+					}
+					if(this.prevOperation == null && this.result != ""){
+						this.result =  String.valueOf(math.sqrt(Double.parseDouble(this.result)));
+						this.DisplayResult = this.result;
+						this.display.setText(this.DisplayResult);
+						this.prevResult = Double.parseDouble(this.result);
+						this.STATE = 17;
+						break;
+					}
+					else if(this.prevOperation != null){
+						if(this.STATE != 1){
+							this.DisplayResult = this.DisplayResult.substring(0, this.DisplayResult.length() - this.result.length());
+							this.result = String.valueOf(math.sqrt(Double.parseDouble(this.result)));
+							this.DisplayResult += this.result;
+							this.display.setText(this.DisplayResult);
+							break;
+						}else{
+							this.result = String.valueOf(math.sqrt(Double.parseDouble(this.result)));
+							this.DisplayResult = this.result;
+							this.display.setText(this.DisplayResult);
+							this.prevOperation = null;
+							this.STATE = 17;
+							break;
+						}
+					}
+				}
+				
+				if(i == 16){
+					if(this.prevOperation == null && this.result == ""){
+						break;
+					}		
+				}
+				
 				if(this.prevOperation == null && this.result == ""){
 					this.prevOperation = buttons[i].getText();
 					this.prevResult =  0;
@@ -107,7 +249,7 @@ public class Coculator extends JFrame implements ActionListener{
 					this.display.setText(this.DisplayResult);
 					this.STATE = 1;
 				}
-				else if(this.prevOperation == null && this.result != ""){
+				else if(this.prevOperation == null && this.result != ""){				
 					this.prevOperation = buttons[i].getText();
 					this.prevResult = Double.parseDouble(this.result);
 					this.DisplayResult += " "+buttons[i].getText() + " ";
@@ -116,17 +258,44 @@ public class Coculator extends JFrame implements ActionListener{
 				}
 				else if(this.prevOperation != null && this.STATE != 1){
 					double result = 0;
+					
 					if(this.prevOperation == "+" )
-						result = this.prevResult + Double.parseDouble(this.result);
+						result = math.add(this.prevResult, Double.parseDouble(this.result));
 					if(this.prevOperation == "-")
-						result = this.prevResult - Double.parseDouble(this.result);
+						result = math.sub(this.prevResult, Double.parseDouble(this.result));
 					if(this.prevOperation == "*")
-						result = this.prevResult * Double.parseDouble(this.result);
-					if(this.prevOperation == "/")
-						result = this.prevResult / Double.parseDouble(this.result);
+						result = math.mul(this.prevResult, Double.parseDouble(this.result));
+					if(this.prevOperation == "/"){
+						result = math.div(this.prevResult, Double.parseDouble(this.result));
+						if( Double.isNaN(result) ){						
+							clear();
+							this.display.setText("Math Error");
+							break;
+						}
+					}
+					if(this.prevOperation == "^"){
+						result = math.pow(this.prevResult, Double.parseDouble(this.result));
+					}
+					
+					
+					if(buttons[i].getText() == "^" && this.prevOperation != "="){
+						this.STATE = 7;
+						this.stored = this.result;
+						this.result = "";
+						this.DisplayResult += buttons[i].getText();
+						this.display.setText(this.DisplayResult);
+						break;
+					}
+						
 					
 					if(this.prevOperation != "="){
 						this.prevResult = result;
+					}
+					
+					if( Double.isInfinite(this.prevResult) && this.prevOperation != "="){
+						clear();
+						this.display.setText("Infinity");
+						return;
 					}
 					
 					String tmp = ""+this.prevResult; 
@@ -137,7 +306,16 @@ public class Coculator extends JFrame implements ActionListener{
 						this.DisplayResult = parts[0] + " " + buttons[i].getText() + " ";
 					}
 					else{
-						this.DisplayResult = this.prevResult + " " + buttons[i].getText() + " ";
+						String temp = ""+this.prevResult;
+						if(temp.contains("E") && temp.length() > 16){
+							String ePart = temp.substring(temp.indexOf("E"),temp.length());
+							temp = temp.substring(0, 16-ePart.length());
+							temp += ePart;
+						}
+						else if(temp.length() > 16){
+							temp = temp.substring(0, 16);
+						}
+						this.DisplayResult = temp + " " + buttons[i].getText() + " ";
 					}
 					
 					this.display.setText(this.DisplayResult);
@@ -152,7 +330,7 @@ public class Coculator extends JFrame implements ActionListener{
 				}
 			}
 		}
-		
+		//=
 		if(e.getSource() == this.buttons[18]){
 			if(this.prevOperation == null && this.result == ""){
 				this.result = "0";
@@ -165,17 +343,31 @@ public class Coculator extends JFrame implements ActionListener{
 			else if(this.prevOperation != null && this.STATE != 1 && this.STATE != 3){
 				double result = 0;
 				if(this.prevOperation == "+" )
-					result = this.prevResult + Double.parseDouble(this.result);
+					result = math.add(this.prevResult, Double.parseDouble(this.result));
 				if(this.prevOperation == "-")
-					result = this.prevResult - Double.parseDouble(this.result);
+					result = math.sub(this.prevResult, Double.parseDouble(this.result));
 				if(this.prevOperation == "*")
-					result = this.prevResult * Double.parseDouble(this.result);
-				if(this.prevOperation == "/")
-					result = this.prevResult / Double.parseDouble(this.result);
+					result = math.mul(this.prevResult, Double.parseDouble(this.result));
+				if(this.prevOperation == "/"){
+					result = math.div(this.prevResult, Double.parseDouble(this.result));
+					if( Double.isNaN(result) ){						
+						clear();
+						this.display.setText("Math Error");
+						return;
+					}
+				}
+				if(this.prevOperation == "^")
+					result = math.pow(this.prevResult, Double.parseDouble(this.result));
 				
 				this.prevResult = result;
 				this.prevOperation = "=";
 				this.DisplayResult = ""+result;
+				
+				if(this.DisplayResult.equals("Infinity")){
+					clear();
+					this.display.setText("Infinity");
+					return;
+				}
 				
 				String[] parts = this.DisplayResult.split("\\.");
 				Pattern p = Pattern.compile("0*");
@@ -183,9 +375,15 @@ public class Coculator extends JFrame implements ActionListener{
 				if(m.matches()){
 					this.DisplayResult = parts[0];
 				}
-				if(this.DisplayResult.length() > 16){
+				if(this.DisplayResult.contains("E") && this.DisplayResult.length() > 16){
+					String ePart = this.DisplayResult.substring(this.DisplayResult.indexOf("E"),this.DisplayResult.length());
+					this.DisplayResult = this.DisplayResult.substring(0, 16-ePart.length());
+					this.DisplayResult += ePart;
+				}
+				else if(this.DisplayResult.length() > 16){
 					this.DisplayResult = this.DisplayResult.substring(0, 16);
 				}
+				
 				this.display.setText(this.DisplayResult);
 				this.STATE = 3;
 			}
@@ -199,16 +397,7 @@ public class Coculator extends JFrame implements ActionListener{
 				this.STATE = 3;
 			}
 		}
-		
-		if(e.getSource() == this.buttons[19]){
-			this.DisplayResult = "";
-			this.prevOperation = null;
-			this.prevResult = 0;
-			this.result = "";
-			this.STATE = 0;
-			this.display.setText("0");
-			this.dotSet = false;
-		}
+	}
 	}
 	
 	public void initButtons(){
