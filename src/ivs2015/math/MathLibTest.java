@@ -26,7 +26,6 @@ import static org.junit.Assert.*;
 
 /**
  * Main class which provides test methods
- * @class MathLibTest testy
  * @brief provides test methods for mathematical functions
  * @see MathLib
  */

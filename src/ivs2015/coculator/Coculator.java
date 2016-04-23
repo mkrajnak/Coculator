@@ -40,6 +40,7 @@ import ivs2015.math.MathLib;
  * Main class also provides main function
  * @class Coculator
  * @brief Main class handling interface
+ * @bug Factorial from sum of two numbers is viewed with .0 
  */
 public class Coculator extends JFrame implements ActionListener{
 	
@@ -194,6 +195,17 @@ public class Coculator extends JFrame implements ActionListener{
 				if(i == 15){
 					if(this.STATE == 3){
 						int tmp = (int) this.prevResult;
+						
+						String[] parts = String.valueOf(this.prevResult).split("\\.");
+						Pattern p = Pattern.compile("0*");
+						Matcher m = p.matcher(parts[1]);
+						if(!m.matches()){
+							clear();
+							this.display.setText("Math error");
+							break;
+							
+						}
+						
 						if(tmp > 20){
 							clear();
 							this.display.setText("Infinity");
@@ -394,6 +406,7 @@ public class Coculator extends JFrame implements ActionListener{
 				this.display.setText(this.DisplayResult);
 			}
 			else if(this.prevOperation == null && this.result != ""){
+				this.prevResult = Double.parseDouble(this.result);
 				this.STATE = 3;
 			}
 			else if(this.prevOperation != null && this.STATE != 1 && this.STATE != 3){
@@ -430,6 +443,7 @@ public class Coculator extends JFrame implements ActionListener{
 				Matcher m = p.matcher(parts[1]);
 				if(m.matches()){
 					this.DisplayResult = parts[0];
+					
 				}
 				
 				if(this.DisplayResult.contains("E") && this.DisplayResult.length() > 16){
