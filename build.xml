@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Coculator" default="compile" basedir=".">
+
+    <description>
+        Simple calculator Coculator as second project for IVS
+    </description>
+
+    <property name="src" location="src"/>
+    <property name="lib" location="lib"/>
+    <property name="doc" location="doc"/>
+    <property name="build" location="build"/>
+    <property name="dist" location="dist"/>
+
+    <!-- Compile aplication -->
+    <target name="compile">
+        <mkdir dir="${build}" />
+        <mkdir dir="${dist}"/>
+        <javac srcdir="${src}" destdir="${build}" includeantruntime="false">
+            <classpath>
+                <pathelement path="${lib}/junit-4.12.jar" />
+                <pathelement path="${lib}/hamcrest-core-1.3.jar" />
+                <pathelement path="${lib}/miglayout15-swing.jar" />
+            </classpath>
+        </javac>
+        <!-- Make jar file -->
+        <jar destfile="${dist}/Coculator.jar" basedir="${build}">
+            <manifest>
+                <attribute name="main-class" value="ivs2015.coculator.Coculator" />
+                <attribute name="Class-Path" value="${lib}/miglayout15-swing.jar"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <!-- Run tests for mathematical library -->
+    <target name="testmath" depends="compile">
+        <junit printsummary="yes" fork="yes" haltonfailure="yes">
+            <classpath>
+                <pathelement path="${dist}/Coculator.jar" />
+                <pathelement path="${lib}/junit-4.12.jar" />
+                <pathelement path="${lib}/hamcrest-core-1.3.jar" />
+                <pathelement path="${lib}/miglayout15-swing.jar" />
+            </classpath>
+            <test name="ivs2015.math.MathLibTest"/>
+        </junit>
+    </target>
+
+    <!-- Run tests for application gui -->
+    <target name="testgui" depends="compile">
+        <junit printsummary="yes" fork="yes" haltonfailure="yes">
+            <classpath>
+                <pathelement path="${dist}/Coculator.jar" />
+                <pathelement path="${lib}/junit-4.12.jar" />
+                <pathelement path="${lib}/hamcrest-core-1.3.jar" />
+                <pathelement path="${lib}/miglayout15-swing.jar" />
+            </classpath>
+            <formatter type="plain"/>
+            <test name="ivs2015.tests.Calculator_tests"/>
+        </junit>
+    </target>
+
+    <!-- Run calculator Coculator -->
+    <target name="run" depends="compile">
+        <java jar="${dist}/Coculator.jar" fork="true">
+            <classpath>
+                <pathelement path="${dist}/Coculator.jar" />
+                <pathelement path="${lib}/junit-4.12.jar" />
+                <pathelement path="${lib}/hamcrest-core-1.3.jar" />
+                <pathelement path="${lib}/miglayout15-swing.jar" />
+            </classpath>
+        </java>
+    </target>
+
+</project>
