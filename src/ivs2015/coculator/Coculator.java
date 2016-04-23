@@ -17,8 +17,8 @@
  * @author David Prexta (xprext00)
  * @author Maros Cocula (xcocul00)
  * @author Patrik Segedy (xseged00)
- * @author Martin krajnak(xkrajn02)
- * @version 9.9
+ * @author Martin Krajnak (xkrajn02)
+ * @version 9.9 (Zidan®)
  */
 package ivs2015.coculator;
 
@@ -38,7 +38,7 @@ import ivs2015.math.MathLib;
 
 /**
  * Main class also provides main function
- * @class Coculator.java
+ * @class Coculator
  * @brief Main class handling interface
  */
 public class Coculator extends JFrame implements ActionListener{
