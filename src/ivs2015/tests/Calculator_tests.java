@@ -11,13 +11,12 @@
  ******************************************************************/
 /**
  * @file Calculator_tests.java
- * @package ivs2015.math
- * @brief 
+ * @package ivs2015.tests
  * @author David Prexta (xprext00)
  * @author Maros Cocula (xcocul00)
  * @author Patrik Segedy (xseged00)
- * @author Martin krajnak(xkrajn02)
- * @version 9.9
+ * @author Martin Krajnak (xkrajn02)
+ * @version 9.9 (Zidan®)
  */
 package ivs2015.tests;
 
@@ -33,7 +32,7 @@ import ivs2015.coculator.*;
 
 /**
  * Class contains test of user interface and basic functions
- * @class Calculator_tests.java
+ * @class Calculator_tests
  * @brief provides test methods for UI
  * @see ivs2015.coculator.Coculator
  */

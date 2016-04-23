@@ -12,15 +12,21 @@
 /**
  * @file MathLib.java
  * @package ivs2015.math
- * @brief Class provides functions for mathematical calculations
  * @author David Prexta (xprext00)
  * @author Maros Cocula (xcocul00)
  * @author Patrik Segedy (xseged00)
- * @author Martin krajnak(xkrajn02)
- * @version 9.9
+ * @author Martin Krajnak (xkrajn02)
+ * @version 9.9 (Zidan®)
  */
 package ivs2015.math;
 
+
+/**
+ * Class contains mathematical methods
+ * @class MathLib
+ * @brief contains mathematical methods 
+ * @see ivs2015.coculator.Coculator
+ */
 public class MathLib {
 	/**
 	 * @brief Sum of two numbers (double)

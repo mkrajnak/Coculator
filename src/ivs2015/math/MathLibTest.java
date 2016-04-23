@@ -13,12 +13,11 @@
 /**
  * @file MathLibTest.java
  * @package ivs2015.math
- * @brief Class provides test for mathematical library 
  * @author David Prexta (xprext00)
  * @author Maros Cocula (xcocul00)
  * @author Patrik Segedy (xseged00)
- * @author Martin Krajnak(xkrajn02)
- * @version 9.9
+ * @author Martin Krajnak (xkrajn02)
+ * @version 9.9 (Zidan®)
  */
 package ivs2015.math;
 
@@ -27,7 +26,7 @@ import static org.junit.Assert.*;
 
 /**
  * Main class which provides test methods
- * @class MathLibTest.java
+ * @class MathLibTest testy
  * @brief provides test methods for mathematical functions
  * @see MathLib
  */
