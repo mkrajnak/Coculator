@@ -24,9 +24,9 @@
         </javac>
         <!-- Make jar file -->
         <jar destfile="${dist}/Coculator.jar" basedir="${build}">
+            <zipgroupfileset dir="${lib}" includes="miglayout15-swing.jar" />
             <manifest>
                 <attribute name="main-class" value="ivs2015.coculator.Coculator" />
-                <attribute name="Class-Path" value="${lib}/miglayout15-swing.jar"/>
             </manifest>
         </jar>
     </target>
@@ -53,6 +53,7 @@
                 <pathelement path="${lib}/hamcrest-core-1.3.jar" />
                 <pathelement path="${lib}/miglayout15-swing.jar" />
             </classpath>
+            <formatter type="plain"/>
             <test name="ivs2015.tests.Calculator_tests"/>
         </junit>
     </target>
